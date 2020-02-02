@@ -6,4 +6,17 @@ before_install:
   - docker build -t rklemo/docker-react -f Dockerfile.dev .
   
 script:
-  - docker run rklemo/docker-react -e CI=true npm run test -- -- coverage 
+  - docker run rklemo/docker-react -e CI=true npm run test
+  
+deploy:
+  edge: true
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "docker"
+  env: "Docker-env"
+  bucket_name: "elasticbeanstalk-us-east-2-947183736082"
+  bucket_path: "docker"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $ASWS_SECRET_KEY
